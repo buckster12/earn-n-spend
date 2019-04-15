@@ -10,7 +10,8 @@ class NewGoal extends Component {
         this.state = {
             disabled: false,
             title: '',
-            description: '',
+            points: 0,
+            // description: '',
         };
     }
 
@@ -37,7 +38,8 @@ class NewGoal extends Component {
 
         await axios.post('http://localhost:8081', {
             title: this.state.title,
-            description: this.state.description,
+            point: this.state.points,
+            // description: this.state.description,
         }, {
             // headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         });
@@ -65,17 +67,21 @@ class NewGoal extends Component {
                                         placeholder="Give your goal a title."
                                     />
                                 </div>
+                                {/*<div className="form-group">*/}
+                                {/*<label htmlFor="exampleInputEmail1">Description:</label>*/}
+                                {/*<input*/}
+                                {/*disabled={this.state.disabled}*/}
+                                {/*type="text"*/}
+                                {/*onBlur={(e) => {*/}
+                                {/*this.updateDescription(e.target.value)*/}
+                                {/*}}*/}
+                                {/*className="form-control"*/}
+                                {/*placeholder="Give more context to your goal."*/}
+                                {/*/>*/}
+                                {/*</div>*/}
                                 <div className="form-group">
-                                    <label htmlFor="exampleInputEmail1">Description:</label>
-                                    <input
-                                        disabled={this.state.disabled}
-                                        type="text"
-                                        onBlur={(e) => {
-                                            this.updateDescription(e.target.value)
-                                        }}
-                                        className="form-control"
-                                        placeholder="Give more context to your goal."
-                                    />
+                                    <label htmlFor="points">Points:</label>
+                                    <input type="text" className="form-control" placeholder="50"/>
                                 </div>
                                 <button
                                     disabled={this.state.disabled}

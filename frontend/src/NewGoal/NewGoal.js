@@ -11,7 +11,6 @@ class NewGoal extends Component {
             disabled: false,
             title: '',
             points: 0,
-            // description: '',
         };
     }
 
@@ -25,6 +24,12 @@ class NewGoal extends Component {
 
     }
 
+    updatePoints(value) {
+        this.setState({
+            points: value,
+        })
+    }
+
     updateTitle(value) {
         this.setState({
             title: value,
@@ -36,10 +41,9 @@ class NewGoal extends Component {
             disabled: true,
         });
 
-        await axios.post('http://localhost:8081', {
+        await axios.post('http://localhost:8081/new', {
             title: this.state.title,
-            point: this.state.points,
-            // description: this.state.description,
+            points: this.state.points,
         }, {
             // headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         });
@@ -81,7 +85,9 @@ class NewGoal extends Component {
                                 {/*</div>*/}
                                 <div className="form-group">
                                     <label htmlFor="points">Points:</label>
-                                    <input type="text" className="form-control" placeholder="50"/>
+                                    <input type="text" className="form-control" onBlur={(e) => {
+                                        this.updatePoints(e.target.value)
+                                    }} placeholder="50"/>
                                 </div>
                                 <button
                                     disabled={this.state.disabled}

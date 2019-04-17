@@ -7,29 +7,47 @@ const morgan = require('morgan');
 
 // define the Express app
 const app = express();
+const mongoose = require('mongoose');
+const config = require('./DB.js');
+const goalRoutes = require('./goal.route');
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.DB, {useNewUrlParser: true}).then(
+    () => {
+        console.log('Database is connected')
+    },
+    err => {
+        console.log('Can not connect to the database' + err)
+    }
+);
+
 
 // the database
-const questions = [];
+// const questions = [];
 
 // enhance your app security with Helmet
-app.use(helmet());
+// app.use(helmet());
 
 // use bodyParser to parse application/json content-type
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 // enable all CORS requests
 app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // log HTTP requests
 app.use(morgan('combined'));
 
+/*
 // retrieve all questions
 app.get('/', (req, res) => {
     const qs = questions.map(q => ({
         id: q.id,
         title: q.title,
-        description: q.description,
-        answers: q.answers.length,
+        point: q.points,
+        // description: q.description,
+        // answers: q.answers.length,
     }));
     res.send(qs);
 });
@@ -42,18 +60,6 @@ app.get('/:id', (req, res) => {
     res.send(question[0]);
 });
 
-// insert a new question
-app.post('/', (req, res) => {
-    const {title, description} = req.body;
-    const newQuestion = {
-        id: questions.length + 1,
-        title,
-        description,
-        answers: [],
-    };
-    questions.push(newQuestion);
-    res.status(200).send();
-});
 
 // insert a new answer to a question
 app.post('/answer/:id', (req, res) => {
@@ -69,6 +75,9 @@ app.post('/answer/:id', (req, res) => {
 
     res.status(200).send();
 });
+*/
+
+app.use('/', goalRoutes);
 
 // start the server
 app.listen(8081, () => {

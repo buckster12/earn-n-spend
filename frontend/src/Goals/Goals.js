@@ -7,19 +7,21 @@ class Goals extends Component {
         super(props);
 
         this.state = {
-            goals: [
-                {
-                    id: 1,
-                    title: 'test',
-                    points: 50,
-                },
-                {
-                    id: 2,
-                    title: 'test 2',
-                    points: 20,
-                },
-            ]
+            goals: []
         };
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:8081/goals')
+            .then(response => {
+
+                console.log(response);
+
+                this.setState({goals: response.data});
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 
     render() {
